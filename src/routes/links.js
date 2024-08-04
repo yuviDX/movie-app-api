@@ -1,38 +1,24 @@
 import { Hono } from "hono";
-import fs from "fs";
-import path from "path";
+
+// URL to the hosted JSON data
+const DATA_URL = "https://example.com/path/to/movies_data.json";
 
 const links = new Hono();
-
-// Define the path to the JSON data file
-const dataFilePath = path.join(__dirname, "../links_data", "movies_data.json");
-
-// Helper function to read and parse the JSON data
-const getMoviesData = () => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(dataFilePath, "utf8", (err, data) => {
-      if (err) {
-        return reject(err);
-      }
-      try {
-        const jsonData = JSON.parse(data);
-        resolve(jsonData);
-      } catch (parseError) {
-        reject(parseError);
-      }
-    });
-  });
-};
 
 links.get("/movie", async (c) => {
   try {
     const movieTitle = c.req.query("title");
     if (!movieTitle) {
-      throw new Error('Query parameter "title" is required');
+      return c.json({ error_message: 'Query parameter "title" is required' }, 400);
     }
 
-    // Load and search through movie data
-    const moviesData = await getMoviesData();
+    // Fetch and parse JSON data
+    const response = await fetch(DATA_URL);
+    if (!response.ok) {
+      throw new Error("Failed to fetch movie data");
+    }
+
+    const moviesData = await response.json();
     const movie = moviesData.find((m) => m.movie_name.toLowerCase() === movieTitle.toLowerCase());
 
     if (!movie) {
