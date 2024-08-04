@@ -1,7 +1,7 @@
 # API for my personal movie app project
 
 Due to filtering issues, images from TMDB API couldn't be loaded in my country without VPN.
-This is a fork from the original repo [![imdb-api By Tuhin Kanti Pal](https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png)](https://github.com/tuhinpal/imdb-api).
+This is a fork from the original repo [imdb-api by Tuhin Kani Pal](https://github.com/tuhinpal/imdb-api).
 
 Some additional features provided by TMDB API like popular movies and series, discover,... are added to this API.
 
