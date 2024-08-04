@@ -9,7 +9,7 @@ movie.get("/popular", async (c) => {
     const popularMoviesResponse = await fetch(`${tmdbBaseUrl}/movie/popular?language=en-US&page=1`, options);
     const popularMovies = await popularMoviesResponse.json();
 
-    const imdbIds = getExternalIDs(popularMovies.results);
+    const imdbIds = await getExternalIDs(popularMovies.results);
 
     return c.json({ imdbIds });
   } catch (err) {
@@ -23,7 +23,7 @@ movie.get("/top", async (c) => {
     const topMoviesResponse = await fetch(`${tmdbBaseUrl}/movie/top?language=en-US&page=1`, options);
     const topMovies = await topMoviesResponse.json();
 
-    const imdbIds = getExternalIDs(topMovies.results);
+    const imdbIds = await getExternalIDs(topMovies.results);
 
     return c.json({ imdbIds });
   } catch (err) {
