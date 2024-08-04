@@ -1,4 +1,17 @@
-![IMDB API](https://user-images.githubusercontent.com/51857187/170807293-a52d8141-f743-4501-82e5-55e3d4286e61.jpg)
+# API for my personal movie app project
+
+Due to filtering issues, images from TMDB API couldn't be loaded in my country without VPN.
+This is a fork from the original repo [![imdb-api By Tuhin Kanti Pal](https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png)](https://github.com/tuhinpal/imdb-api).
+
+Some additional features provided by TMDB API like popular movies and series, discover,... are added to this API.
+
+Aside from movie information, I have also provided links to movies and series episodes in json format and can be found using ID or title, scraped from across different download websites.
+
+## Disclaimer
+
+This API is created for personal and educational use only. The author is not responsible for any damages, issues, or liabilities that arise from the use of this project. It may also violate copyright laws in many countries.
+
+By using this project, you agree that you understand and accept these terms.
 
 ## Features 🪶
 
@@ -8,30 +21,11 @@
 - High Performance
 - Get episode information
 - Get all reviews with full pagination supported
-
-## Installation 📦
-
-If you anticipate sending a large number of requests, it is recommended that you deploy your own Cloudflare worker. Installation is pretty easy and straight forward. Click the button below to get started.
-
-[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/tuhinpal/imdb-api)
-
-After deployed, map the worker to a Domain Name to configure cache. Only Workers deployed to custom domains have access to functional cache operations.
-
-## Run with docker 🐋
-
-- Clone this repository
-- Build the image
-  ```
-  docker build -t imdb-api .
-  ```
-- Start the process (Deatached)
-  ```
-  docker run -p 3000:3000 -it -d imdb-api
-  ```
+- Get popular and top of all time movies and TV series
+- Discover with filters like year, genre,...
+- Get Links for
 
 ## API 📡
-
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/12162111-12f08f8e-a76b-4cf4-a7b9-17cb9f95dd82?action=collection%2Ffork&collection-url=entityId%3D12162111-12f08f8e-a76b-4cf4-a7b9-17cb9f95dd82%26entityType%3Dcollection%26workspaceId%3D7efe0056-efcd-49b1-bfd8-0854d36c1065)
 
 | Endpoint                                                                                         | Method | Description                               | Example                                                                                       |
 | ------------------------------------------------------------------------------------------------ | ------ | ----------------------------------------- | --------------------------------------------------------------------------------------------- |
