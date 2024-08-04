@@ -1,19 +1,3 @@
-## Important Update: Project Discontinued 🔔
-
-IMDb has recently launched their [official API](https://developer.imdb.com/), providing developers with authorized access to their database. Given this development, I've made the decision to discontinue maintenance of this project for the following reasons:
-
-1. To avoid potential conflicts with IMDb's terms of service and intellectual property rights.
-2. To encourage the use of officially supported and maintained data sources.
-
-Recommendations for users of this project:
-
-1. Transition to IMDb's official API for the most up-to-date and reliable movie data.
-2. Consider using alternative sources like TMDB (The Movie Database) API as another robust option.
-
-This repository will be archived to preserve the code for reference purposes. Thank you to all contributors and users for your support throughout this project's lifespan.
-
-For any questions or concerns, please refer to IMDb's developer documentation or explore TMDB's API offerings.
-
 ![IMDB API](https://user-images.githubusercontent.com/51857187/170807293-a52d8141-f743-4501-82e5-55e3d4286e61.jpg)
 
 ## Features 🪶
