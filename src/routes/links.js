@@ -1,8 +1,8 @@
-import { hono } from "hono";
+import { Hono } from "hono";
 import fs from "fs";
 import path from "path";
 
-const links = new hono();
+const links = new Hono();
 
 // Define the path to the JSON data file
 const dataFilePath = path.join(__dirname, "../links_data", "movies_data.json");
