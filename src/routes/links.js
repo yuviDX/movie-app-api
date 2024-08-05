@@ -1,11 +1,11 @@
 import { Hono } from "hono";
 
 // URL to the hosted JSON data
-const DATA_URL = "https://example.com/path/to/movies_data.json";
+const DATA_URL = "https://movie-api-70e28-default-rtdb.europe-west1.firebasedatabase.app";
 
 const links = new Hono();
 
-links.get("/movie", async (c) => {
+links.get("/series", async (c) => {
   try {
     const movieTitle = c.req.query("title");
     if (!movieTitle) {
@@ -13,7 +13,7 @@ links.get("/movie", async (c) => {
     }
 
     // Fetch and parse JSON data
-    const response = await fetch(DATA_URL);
+    const response = await fetch(`${DATA_URL}/series.json`);
     if (!response.ok) {
       throw new Error("Failed to fetch movie data");
     }
