@@ -19,17 +19,33 @@ links.get("/series", async (c) => {
     }
 
     let moviesData = await response.json();
-    if (!Array.isArray(moviesData)) {
-      moviesData = Object.values(moviesData);
+    console.log(moviesData); // Log the fetched data
+
+    // Convert the object to an array
+    const seriesArray = Object.keys(moviesData).map((title) => {
+      const seasons = moviesData[title].seasons;
+      const episodes = Object.keys(seasons).flatMap((seasonKey) => {
+        const season = seasons[seasonKey];
+        return Object.keys(season).map((episodeKey) => ({
+          episode: episodeKey,
+          resolutions: season[episodeKey],
+        }));
+      });
+
+      return {
+        title,
+        episodes,
+      };
+    });
+
+    // Find the requested series
+    const series = seriesArray.find((s) => s.title.toLowerCase() === movieTitle.toLowerCase());
+
+    if (!series) {
+      return c.json({ error_message: "Series not found" }, 404);
     }
 
-    const movie = moviesData.find((m) => m.movie_name.toLowerCase() === movieTitle.toLowerCase());
-
-    if (!movie) {
-      return c.json({ error_message: "Movie not found" }, 404);
-    }
-
-    return c.json({ result: movie });
+    return c.json({ result: series });
   } catch (error) {
     console.log(error);
     return c.json({ error_message: error.message }, 500);
