@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { openSubApiKey } from "../helpers/const";
+const axios = require("axios");
 
 const subtitles = new Hono();
 
