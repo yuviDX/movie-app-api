@@ -21,22 +21,11 @@ links.get("/series", async (c) => {
     let moviesData = await response.json();
     console.log(moviesData); // Log the fetched data
 
-    // Convert the object to an array
-    const seriesArray = Object.keys(moviesData).map((title) => {
-      const seasons = moviesData[title].seasons;
-      const episodes = Object.keys(seasons).flatMap((seasonKey) => {
-        const season = seasons[seasonKey];
-        return Object.keys(season).map((episodeKey) => ({
-          episode: episodeKey,
-          resolutions: season[episodeKey],
-        }));
-      });
-
-      return {
-        title,
-        episodes,
-      };
-    });
+    // Convert the object to an array while keeping the original format
+    const seriesArray = Object.entries(moviesData).map(([title, data]) => ({
+      title,
+      seasons: data.seasons,
+    }));
 
     // Find the requested series
     const series = seriesArray.find((s) => s.title.toLowerCase() === movieTitle.toLowerCase());
