@@ -28,7 +28,10 @@ links.get("/series", async (c) => {
     }));
 
     // Find the requested series
-    const series = seriesArray.find((s) => s.title.toLowerCase() === movieTitle.toLowerCase());
+    const series = seriesArray.find(
+      (s) =>
+        s.title.toLowerCase() === movieTitle.toLowerCase() || s.title.toLowerCase().includes(movieTitle.toLowerCase())
+    );
 
     if (!series) {
       return c.json({ error_message: "Series not found" }, 404);
