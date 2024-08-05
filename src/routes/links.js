@@ -18,14 +18,18 @@ links.get("/series", async (c) => {
       throw new Error("Failed to fetch movie data");
     }
 
-    const moviesData = await response.json();
+    let moviesData = await response.json();
+    if (!Array.isArray(moviesData)) {
+      moviesData = Object.values(moviesData);
+    }
+
     const movie = moviesData.find((m) => m.movie_name.toLowerCase() === movieTitle.toLowerCase());
 
     if (!movie) {
       return c.json({ error_message: "Movie not found" }, 404);
     }
 
-    return c.json({ url: movie.urls });
+    return c.json({ result: movie });
   } catch (error) {
     console.log(error);
     return c.json({ error_message: error.message }, 500);
