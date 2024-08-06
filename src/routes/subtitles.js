@@ -3,17 +3,19 @@ import { openSubApiKey } from "../helpers/const";
 
 const subtitles = new Hono();
 
+const SEARCH_URL = "https://api.opensubtitles.com/api/v1/subtitles";
+const options = {
+  method: "GET",
+  headers: { "User-Agent": "", "Api-Key": "Q9ysXY9kbzuL77r8C3G5XGk2EZuTeFsM" },
+};
+
 subtitles.get("/search", async (c) => {
   const { query } = c.req.query();
   if (!query) {
     return c.json({ error: "Query parameter is required" }, 400);
   }
   try {
-    const response = await fetch(`https://api.opensubtitles.com/api/v1/subtitles?query=${encodeURIComponent(query)}`, {
-      headers: {
-        "Api-Key": openSubApiKey,
-      },
-    });
+    const response = await fetch(`${SEARCH_URL}?query=${query}`, options);
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
