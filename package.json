@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "movie-app-api",
+  "name": "move-app-api",
   "version": "1.0.3",
-  "description": "Serverless IMDB API powered by Cloudflare Worker",
+  "description": "Serverless Movies API powered by Cloudflare Worker",
   "main": "src/index.js",
   "scripts": {
     "dev": "wrangler dev src/index.js --port 3000",
@@ -14,7 +14,7 @@
   "author": "tuhinpal <me@thetuhin.com>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "axios": "^1.7.3",
+    "axios": "^0.27.2",
     "jest": "^28.1.0",
     "wrangler": "^3.3.0"
   },

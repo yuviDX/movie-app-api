@@ -1,6 +1,5 @@
 import { Hono } from "hono";
 import { openSubApiKey } from "../helpers/const";
-const axios = require("axios");
 
 const subtitles = new Hono();
 
@@ -10,15 +9,18 @@ subtitles.get("/search", async (c) => {
     return c.json({ error: "Query parameter is required" }, 400);
   }
   try {
-    const response = await axios.get("https://api.opensubtitles.com/api/v1/subtitles", {
+    const response = await fetch(`https://api.opensubtitles.com/api/v1/subtitles?query=${encodeURIComponent(query)}`, {
       headers: {
-        "Api-Key": { openSubApiKey },
-      },
-      params: {
-        query: query,
+        "Api-Key": openSubApiKey,
       },
     });
-    return c.json(response.data);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return c.json(data);
   } catch (error) {
     console.log(error);
     return c.json({ error_message: error.message }, 500);
