@@ -25,12 +25,12 @@ subtitles.get("/search", async (c) => {
   }
 });
 
-subtitles.get("/download", async (c) => {
-  try {
-  } catch (error) {
-    console.log(error);
-    return c.json({ error_message: error.message }, 500);
-  }
-});
+// subtitles.get("/download", async (c) => {
+//   try {
+//   } catch (error) {
+//     console.log(error);
+//     return c.json({ error_message: error.message }, 500);
+//   }
+// });
 
 export default subtitles;
