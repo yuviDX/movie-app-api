@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "imdb-api",
-  "version": "2.0.0",
-  "description": "Serverless Movies API powered by Cloudflare Worker",
+  "name": "movie-app-api",
+  "version": "1.0.3",
+  "description": "Serverless IMDB API powered by Cloudflare Worker",
   "main": "src/index.js",
   "scripts": {
     "dev": "wrangler dev src/index.js --port 3000",
@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AmirRabiee2001/movie-app-api"
+    "url": "git+https://github.com/tuhinpal/imdb-api.git"
   },
   "keywords": [
     "imdb",
@@ -41,5 +41,5 @@
   "bugs": {
     "url": "https://github.com/tuhinpal/imdb-api/issues"
   },
-  "homepage": "https://github.com/AmirRabiee2001/movie-app-api"
+  "homepage": "https://github.com/tuhinpal/imdb-api#readme"
 }
