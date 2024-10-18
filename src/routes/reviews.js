@@ -9,9 +9,7 @@ reviews.get("/:id", async (c) => {
     const id = c.req.param("id");
     let option = optionsMapper[0];
     try {
-      let getOption = optionsMapper.find(
-        (option) => option.name === c.req.query("option")
-      );
+      let getOption = optionsMapper.find((option) => option.name === c.req.query("option"));
       if (getOption) option = getOption;
     } catch (_) {}
 
@@ -22,9 +20,9 @@ reviews.get("/:id", async (c) => {
 
     let parser = new DomParser();
     let rawHtml = await apiRequestRawHtml(
-      `https://www.imdb.com/title/${id}/reviews/_ajax?sort=${
-        option.key
-      }&dir=${sortOrder}${nextKey ? `&paginationKey=${nextKey}` : ""}`
+      `https://www.imdb.com/title/${id}/reviews/_ajax?sort=${option.key}&dir=${sortOrder}${
+        nextKey ? `&paginationKey=${nextKey}` : ""
+      }`
     );
     let dom = parser.parseFromString(rawHtml);
 
@@ -48,17 +46,14 @@ reviews.get("/:id", async (c) => {
             level: "html5",
           });
 
-          review.authorUrl =
-            "https://www.imdb.com" +
-            author.getElementsByTagName("a")[0].getAttribute("href");
+          review.authorUrl = "https://www.imdb.com" + author.getElementsByTagName("a")[0].getAttribute("href");
         } catch (_) {
           if (!review.author) review.author = "Anonymous";
           if (!review.authorUrl) review.authorUrl = null;
         }
 
         try {
-          review.user_api_path =
-            "/user/" + review.authorUrl.match(/\/user\/(.*)\//)[1];
+          review.user_api_path = "/user/" + review.authorUrl.match(/\/user\/(.*)\//)[1];
         } catch (error) {
           review.user_api_path = null;
         }
@@ -72,8 +67,7 @@ reviews.get("/:id", async (c) => {
         }
 
         try {
-          let stars =
-            node.getElementsByClassName("ipl-ratings-bar")[0].textContent;
+          let stars = node.getElementsByClassName("ipl-ratings-bar")[0].textContent;
           let match = stars.match(/\d+/g);
           review.stars = parseInt(match[0]);
         } catch (_) {
@@ -99,9 +93,7 @@ reviews.get("/:id", async (c) => {
         }
 
         try {
-          let helpfulNess = node
-            .getElementsByClassName("actions")[0]
-            .textContent.trim();
+          let helpfulNess = node.getElementsByClassName("actions")[0].textContent.trim();
 
           //  text will be like this '223 out of 280 found this helpful'
           let match = helpfulNess.match(/\d+/g);
@@ -109,8 +101,7 @@ reviews.get("/:id", async (c) => {
           review.helpfulNess = {
             votes: parseInt(match[1]),
             votedAsHelpful: parseInt(match[0]),
-            votedAsHelpfulPercentage:
-              Math.round((parseInt(match[0]) / parseInt(match[1])) * 100) || 0,
+            votedAsHelpfulPercentage: Math.round((parseInt(match[0]) / parseInt(match[1])) * 100) || 0,
           };
         } catch (_) {
           review.helpfulNess = {

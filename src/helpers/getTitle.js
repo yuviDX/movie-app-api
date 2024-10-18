@@ -1,3 +1,7 @@
+import apiRequestRawHtml from "./apiRequestRawHtml";
+import DomParser from "dom-parser";
+import seriesFetcher from "./seriesFetcher";
+
 export default async function getTitle(id) {
   const parser = new DomParser();
   const html = await apiRequestRawHtml(`https://www.imdb.com/title/${id}`);
@@ -6,17 +10,6 @@ export default async function getTitle(id) {
   const json = JSON.parse(nextData[0].textContent);
 
   const props = json.props.pageProps;
-
-  // Function to reduce image quality by modifying the URL (same logic as search.js)
-  const lowerImageQuality = (imageUrl) => {
-    try {
-      let width = 128; // Adjust this based on desired width
-      let height = 176; // Adjust this based on desired height
-      return imageUrl.replace(/[.]_.*_[.]/, `._V1_UY${height}_CR0,0,${width},${height}_AL_.`);
-    } catch (_) {
-      return imageUrl; // Fallback in case of an error
-    }
-  };
 
   const getCredits = (lookFor, v) => {
     const result = props.aboveTheFoldData.principalCredits.find((e) => e?.category?.id === lookFor);
@@ -34,6 +27,17 @@ export default async function getTitle(id) {
       : [];
   };
 
+  // Image transformation to match the low-quality image from the search function
+  let imageUrl = props.aboveTheFoldData.primaryImage.url;
+  let lowQualityImage = null;
+
+  if (imageUrl) {
+    const width = Math.floor(
+      (396 * props.aboveTheFoldData.primaryImage.width) / props.aboveTheFoldData.primaryImage.height
+    );
+    lowQualityImage = imageUrl.replace(/[.]_.*_[.]/, `._V1_UY396_CR6,0,${width},396_AL_.`);
+  }
+
   return {
     id: id,
     review_api_path: `/reviews/${id}`,
@@ -44,12 +48,10 @@ export default async function getTitle(id) {
     productionStatus: props.aboveTheFoldData.productionStatus.currentProductionStage.id,
     isReleased: props.aboveTheFoldData.productionStatus.currentProductionStage.id === "released",
     title: props.aboveTheFoldData.titleText.text,
-    // Apply lower quality to main image
-    image: lowerImageQuality(props.aboveTheFoldData.primaryImage.url),
-    // Apply lower quality to other images
+    image: lowQualityImage, // Use low-quality image here
     images: props.mainColumnData.titleMainImages.edges
       .filter((e) => e.__typename === "ImageEdge")
-      .map((e) => lowerImageQuality(e.node.url)),
+      .map((e) => e.node.url),
     plot: props.aboveTheFoldData.plot.plotText.plainText,
     runtime: props.aboveTheFoldData.runtime?.displayableProperty?.value?.plainText ?? "",
     runtimeSeconds: props.aboveTheFoldData.runtime?.seconds ?? 0,
