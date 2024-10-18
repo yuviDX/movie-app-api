@@ -7,6 +7,7 @@ import cache from "./helpers/cache";
 import search from "./routes/search";
 import userRoutes from "./routes/user";
 import movie from "./routes/movie";
+import discover from "./routes/discover";
 
 const app = new Hono();
 
@@ -18,6 +19,8 @@ app.route("/movie", movie);
 app.route("/title", title);
 app.route("/reviews", reviews);
 app.route("/user", userRoutes);
+app.route("/discover", userRoutes);
+
 app.route("/", index);
 
 app.fire();
