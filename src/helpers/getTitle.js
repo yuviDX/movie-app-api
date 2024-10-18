@@ -11,10 +11,14 @@ export default async function getTitle(id) {
 
   const props = json.props.pageProps;
 
+  // Function to reduce image quality by modifying the URL
+  const lowerImageQuality = (imageUrl) => {
+    // This pattern adjusts the image size
+    return imageUrl.replace(/UX[0-9]+_.*_AL_/, "UX128_CR0,0,128,176_AL_"); // Adjust size as per needs
+  };
+
   const getCredits = (lookFor, v) => {
-    const result = props.aboveTheFoldData.principalCredits.find(
-      (e) => e?.category?.id === lookFor
-    );
+    const result = props.aboveTheFoldData.principalCredits.find((e) => e?.category?.id === lookFor);
 
     return result
       ? result.credits.map((e) => {
@@ -36,20 +40,17 @@ export default async function getTitle(id) {
     contentType: props.aboveTheFoldData.titleType.id,
     contentRating: props.aboveTheFoldData?.certificate?.rating ?? "N/A",
     isSeries: props.aboveTheFoldData.titleType.isSeries,
-    productionStatus:
-      props.aboveTheFoldData.productionStatus.currentProductionStage.id,
-    isReleased:
-      props.aboveTheFoldData.productionStatus.currentProductionStage.id ===
-      "released",
+    productionStatus: props.aboveTheFoldData.productionStatus.currentProductionStage.id,
+    isReleased: props.aboveTheFoldData.productionStatus.currentProductionStage.id === "released",
     title: props.aboveTheFoldData.titleText.text,
-    image: props.aboveTheFoldData.primaryImage.url,
+    // Apply lower quality to main image
+    image: lowerImageQuality(props.aboveTheFoldData.primaryImage.url),
+    // Apply lower quality to other images
     images: props.mainColumnData.titleMainImages.edges
       .filter((e) => e.__typename === "ImageEdge")
-      .map((e) => e.node.url),
+      .map((e) => lowerImageQuality(e.node.url)),
     plot: props.aboveTheFoldData.plot.plotText.plainText,
-    runtime:
-      props.aboveTheFoldData.runtime?.displayableProperty?.value?.plainText ??
-      "",
+    runtime: props.aboveTheFoldData.runtime?.displayableProperty?.value?.plainText ?? "",
     runtimeSeconds: props.aboveTheFoldData.runtime?.seconds ?? 0,
     rating: {
       count: props.aboveTheFoldData.ratingsSummary?.voteCount ?? 0,
@@ -73,23 +74,17 @@ export default async function getTitle(id) {
         country: props.mainColumnData.releaseDate?.country?.text,
         cca2: props.mainColumnData.releaseDate?.country?.id,
       },
-      originLocations: props.mainColumnData.countriesOfOrigin.countries.map(
-        (e) => ({
-          country: e.text,
-          cca2: e.id,
-        })
-      ),
+      originLocations: props.mainColumnData.countriesOfOrigin.countries.map((e) => ({
+        country: e.text,
+        cca2: e.id,
+      })),
     },
     year: props.aboveTheFoldData.releaseDate.year,
-    spokenLanguages: props.mainColumnData.spokenLanguages.spokenLanguages.map(
-      (e) => ({
-        language: e.text,
-        id: e.id,
-      })
-    ),
-    filmingLocations: props.mainColumnData.filmingLocations.edges.map(
-      (e) => e.node.text
-    ),
+    spokenLanguages: props.mainColumnData.spokenLanguages.spokenLanguages.map((e) => ({
+      language: e.text,
+      id: e.id,
+    })),
+    filmingLocations: props.mainColumnData.filmingLocations.edges.map((e) => e.node.text),
     actors: getCredits("cast"),
     actors_v2: getCredits("cast", "2"),
     creators: getCredits("creator"),
@@ -103,8 +98,6 @@ export default async function getTitle(id) {
       name: e.category.text,
       credits: e.credits.map((e) => e.name.nameText.text),
     })),
-    ...(props.aboveTheFoldData.titleType.isSeries
-      ? await seriesFetcher(id)
-      : {}),
+    ...(props.aboveTheFoldData.titleType.isSeries ? await seriesFetcher(id) : {}),
   };
 }
