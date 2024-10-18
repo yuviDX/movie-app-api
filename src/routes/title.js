@@ -57,7 +57,7 @@ title.get(":id/tmdbInfo", async (c) => {
     const response = await fetch(`${tmdbBaseUrl}/find/${imdbID}?external_source=imdb_id`, options);
     const tmdbInfo = await response.json();
 
-    return c.json({ tmdbInfo });
+    return c.json(tmdbInfo);
   } catch (err) {
     console.error(err);
     return c.json({ error: "Something went wrong" }, 500);
