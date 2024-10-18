@@ -19,7 +19,7 @@ app.route("/movie", movie);
 app.route("/title", title);
 app.route("/reviews", reviews);
 app.route("/user", userRoutes);
-app.route("/discover", userRoutes);
+app.route("/discover", discover);
 
 app.route("/", index);
 
