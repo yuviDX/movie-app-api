@@ -48,7 +48,5 @@ title.get("/:id/season/:seasonId", async (c) => {
 export default title;
 
 function getNode(dom, tag, id) {
-  return dom
-    .getElementsByTagName(tag)
-    .find((e) => e.attributes.find((e) => e.value === id));
+  return dom.getElementsByTagName(tag).find((e) => e.attributes.find((e) => e.value === id));
 }

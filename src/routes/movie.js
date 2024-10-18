@@ -42,4 +42,24 @@ movie.get("/top", async (c) => {
   }
 });
 
+movie.get("/recommendations/:id", async (c) => {
+  try {
+    const id = c.req.param("id");
+
+    if (!id) {
+      throw new Error("A movie id is required");
+    }
+
+    const response = await fetch(`${tmdbBaseUrl}/movie/${id}/recommendations?language=en-US&page=1`, options);
+    const movieRecommendations = await response.json();
+
+    const imdbIds = await getExternalIDs(movieRecommendations.results);
+
+    return c.json({ imdbIds });
+  } catch (err) {
+    console.error(err);
+    return c.json({ error: "Something went wrong" }, 500);
+  }
+});
+
 export default movie;
