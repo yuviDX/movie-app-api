@@ -45,15 +45,15 @@ title.get("/:id/season/:seasonId", async (c) => {
   }
 });
 
-title.get("/getTMDB/:id", async (c) => {
+title.get("/getTMDB/:imdbID", async (c) => {
   try {
-    const id = c.req.param("id");
+    const imdbID = c.req.param("imdbID");
 
-    if (!id) {
+    if (!imdbID) {
       throw new Error("IMDb id is required");
     }
 
-    const response = await fetch(`${tmdbBaseUrl}/find/${id}?external_source=imdb_id`, options);
+    const response = await fetch(`${tmdbBaseUrl}/find/${imdbID}?external_source=imdb_id`, options);
     const tmdbInfo = await response.json();
 
     return c.json({ tmdbInfo });
