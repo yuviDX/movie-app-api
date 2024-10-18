@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { getSeason } from "../helpers/seriesFetcher";
 import getTitle from "../helpers/getTitle";
+import { tmdbBaseUrl, options } from "../helpers/const";
 
 const title = new Hono();
 
@@ -45,9 +46,9 @@ title.get("/:id/season/:seasonId", async (c) => {
   }
 });
 
-title.get("/getTMDB/:imdbID", async (c) => {
+title.get(":id/tmdbInfo", async (c) => {
   try {
-    const imdbID = c.req.param("imdbID");
+    const imdbID = c.req.param("id");
 
     if (!imdbID) {
       throw new Error("IMDb id is required");
