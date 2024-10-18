@@ -8,9 +8,7 @@ search.get("/", async (c) => {
     let query = c.req.query("query");
     if (!query) throw new Error("Query param is required");
 
-    let data = await apiRequestJson(
-      `https://v3.sg.media-imdb.com/suggestion/x/${query}.json?includeVideos=0`
-    );
+    let data = await apiRequestJson(`https://v3.sg.media-imdb.com/suggestion/x/${query}.json?includeVideos=0`);
 
     let response = {
       query: query,
@@ -34,10 +32,7 @@ search.get("/", async (c) => {
           try {
             let width = Math.floor((396 * node.i.width) / node.i.height);
 
-            imageObj.image = node.i.imageUrl.replace(
-              /[.]_.*_[.]/,
-              `._V1_UY396_CR6,0,${width},396_AL_.`
-            );
+            imageObj.image = node.i.imageUrl.replace(/[.]_.*_[.]/, `._V1_UY396_CR6,0,${width},396_AL_.`);
           } catch (_) {
             imageObj.image = imageObj.image_large;
           }
@@ -64,9 +59,7 @@ search.get("/", async (c) => {
   } catch (error) {
     c.status(500);
     let errorMessage = error.message;
-    if (error.message.includes("Too many"))
-      errorMessage =
-        "Too many requests error from IMDB, please try again later";
+    if (error.message.includes("Too many")) errorMessage = "Too many requests error from IMDB, please try again later";
 
     return c.json({
       query: null,

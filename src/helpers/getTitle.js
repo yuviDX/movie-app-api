@@ -1,7 +1,3 @@
-import apiRequestRawHtml from "./apiRequestRawHtml";
-import DomParser from "dom-parser";
-import seriesFetcher from "./seriesFetcher";
-
 export default async function getTitle(id) {
   const parser = new DomParser();
   const html = await apiRequestRawHtml(`https://www.imdb.com/title/${id}`);
@@ -11,10 +7,15 @@ export default async function getTitle(id) {
 
   const props = json.props.pageProps;
 
-  // Function to reduce image quality by modifying the URL
+  // Function to reduce image quality by modifying the URL (same logic as search.js)
   const lowerImageQuality = (imageUrl) => {
-    // This pattern adjusts the image size
-    return imageUrl.replace(/UX[0-9]+_.*_AL_/, "UX128_CR0,0,128,176_AL_"); // Adjust size as per needs
+    try {
+      let width = 128; // Adjust this based on desired width
+      let height = 176; // Adjust this based on desired height
+      return imageUrl.replace(/[.]_.*_[.]/, `._V1_UY${height}_CR0,0,${width},${height}_AL_.`);
+    } catch (_) {
+      return imageUrl; // Fallback in case of an error
+    }
   };
 
   const getCredits = (lookFor, v) => {
