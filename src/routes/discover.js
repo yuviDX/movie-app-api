@@ -36,7 +36,7 @@ discover.get("/", async (c) => {
 
     const discoverResults = await response.json();
 
-    const imdbIds = await getExternalIDs(discoverResults.results);
+    const imdbIds = await getExternalIDs(discoverResults.results, type === "movie" ? false : true);
 
     return c.json({ imdbIds });
   } catch (err) {

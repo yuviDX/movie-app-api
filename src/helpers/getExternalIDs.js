@@ -1,20 +1,16 @@
 import { tmdbBaseUrl, options } from "./const";
 
-export const getExternalIDs = async (results) => {
-  const idsPromises = results.map(async (item) => {
-    // Check if the item is a movie or a TV show
-    const endpoint =
-      item.media_type === "movie"
-        ? `${tmdbBaseUrl}/movie/${item.id}/external_ids`
-        : `${tmdbBaseUrl}/tv/${item.id}/external_ids`; // Use TV endpoint for series
+export const getExternalIDs = async (results, isSeries) => {
+  const movieIds = results.map((movie) => movie.id);
 
-    const externalIdsResponse = await fetch(endpoint, options);
+  const TYPE = isSeries ? "tv" : "movie";
+
+  const imdbIdsPromises = movieIds.map(async (id) => {
+    const externalIdsResponse = await fetch(`${tmdbBaseUrl}/${TYPE}/${id}/external_ids`, options);
     const externalIds = await externalIdsResponse.json();
-
-    // Return the appropriate external ID based on the type
-    return item.media_type === "movie" ? externalIds.imdb_id : externalIds.imdb_id; // adjust if necessary for TV
+    return externalIds.imdb_id;
   });
 
-  const imdbIds = await Promise.all(idsPromises);
+  const imdbIds = await Promise.all(imdbIdsPromises);
   return imdbIds;
 };

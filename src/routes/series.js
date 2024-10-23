@@ -14,7 +14,7 @@ series.get("/popular", async (c) => {
     const popularSeriesResponse = await fetch(`${tmdbBaseUrl}/tv/popular?language=en-US&page=${page}`, options);
     const popularSeries = await popularSeriesResponse.json();
 
-    const imdbIds = await getExternalIDs(popularSeries.results);
+    const imdbIds = await getExternalIDs(popularSeries.results, true);
 
     return c.json({ imdbIds });
   } catch (err) {
@@ -33,7 +33,7 @@ series.get("/top", async (c) => {
     const topSeriesResponse = await fetch(`${tmdbBaseUrl}/tv/top_rated?language=en-US&page=${page}`, options);
     const topSeries = await topSeriesResponse.json();
 
-    const imdbIds = await getExternalIDs(topMovies.results);
+    const imdbIds = await getExternalIDs(topSeries.results, true);
 
     return c.json({ imdbIds });
   } catch (err) {
@@ -53,7 +53,7 @@ series.get("/recommendations/:id", async (c) => {
     const response = await fetch(`${tmdbBaseUrl}/tv/${id}/recommendations?language=en-US&page=1`, options);
     const seriesRecommendations = await response.json();
 
-    const imdbIds = await getExternalIDs(seriesRecommendations.results);
+    const imdbIds = await getExternalIDs(seriesRecommendations.results, true);
 
     return c.json({ imdbIds });
   } catch (err) {
