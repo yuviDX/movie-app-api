@@ -27,10 +27,12 @@ discover.get("/", async (c) => {
       throw new Error('Query param "page" is required');
     }
 
-    const response = await fetch(
-      `${tmdbBaseUrl}/discover/${type}?with_genres=${genre}&primary_release_date.gte=${yearStart}-01-01&primary_release_date.lte=${yearEnd}-12-31&language=en-US&page=${page}&sort_by=popularity.desc`,
-      options
-    );
+    const dataFilter =
+      type === "movie"
+        ? `with_genres=${genre}&primary_release_date.gte=${yearStart}-01-01&primary_release_date.lte=${yearEnd}-12-31&language=en-US&page=${page}&sort_by=popularity.desc`
+        : `with_genres=${genre}&first_air_date.gte=${yearStart}-01-01&first_air_date.lte=${yearEnd}-12-31&language=en-US&page=${page}&sort_by=popularity.desc`;
+
+    const response = await fetch(`${tmdbBaseUrl}/discover/${type}?${dataFilter}`, options);
 
     const discoverResults = await response.json();
 
