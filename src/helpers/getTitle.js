@@ -68,7 +68,8 @@ export default async function getTitle(id) {
       date: new Date(
         props.aboveTheFoldData.releaseDate.year,
         props.aboveTheFoldData.releaseDate.month - 1,
-        props.aboveTheFoldData.releaseDate.day
+        props.aboveTheFoldData.releaseDate.day,
+        props.aboveTheFoldData.releaseYear.endYear
       ).toISOString(),
       day: props.aboveTheFoldData.releaseDate.day,
       month: props.aboveTheFoldData.releaseDate.month,
@@ -84,6 +85,7 @@ export default async function getTitle(id) {
       })),
     },
     year: props.aboveTheFoldData.releaseDate.year,
+    yearend: props.aboveTheFoldData.releaseYear.endYear,
     spokenLanguages: props.mainColumnData.spokenLanguages.spokenLanguages.map((e) => ({
       language: e.text,
       id: e.id,
