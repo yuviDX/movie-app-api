@@ -39,7 +39,7 @@ export default async function getTitle(id) {
   }
 
   return {
-    id: id,
+    
     review_api_path: `/reviews/${id}`,
     imdb: `https://www.imdb.com/title/${id}`,
     contentType: props.aboveTheFoldData.titleType.id,
