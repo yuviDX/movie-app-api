@@ -73,6 +73,7 @@ export default async function getTitle(id) {
       day: props.aboveTheFoldData.releaseDate.day,
       month: props.aboveTheFoldData.releaseDate.month,
       year: props.aboveTheFoldData.releaseDate.year,
+      yearend: props.aboveTheFoldData.releaseYear.endYear,
       releaseLocation: {
         country: props.mainColumnData.releaseDate?.country?.text,
         cca2: props.mainColumnData.releaseDate?.country?.id,
