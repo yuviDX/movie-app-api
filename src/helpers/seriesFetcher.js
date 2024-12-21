@@ -50,7 +50,8 @@ export async function getSeason({ id, seasonId }) {
         publishedDate: new Date(
           e.releaseDate.year,
           e.releaseDate.month - 1,
-          e.releaseDate.day
+          e.releaseDate.day,
+          e.releaseYear.endYear
         ).toISOString(),
         rating: {
           count: e.voteCount,
