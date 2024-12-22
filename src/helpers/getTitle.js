@@ -104,6 +104,8 @@ export default async function getTitle(id) {
       name: e.category.text,
       credits: e.credits.map((e) => e.name.nameText.text),
     })),
+    totalEps: props.mainColumnData.episodes.totalEpisodes.total,
+    totalseasons: Math.max(...props.mainColumnData.episodes.seasons.map(season => season.number)),
     ...(props.aboveTheFoldData.titleType.isSeries ? await seriesFetcher(id) : {}),
   };
 }
