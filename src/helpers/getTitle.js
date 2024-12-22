@@ -39,6 +39,15 @@ export default async function getTitle(id) {
   }
   
   const endYear = props.aboveTheFoldData.releaseYear?.endYear ?? null;
+  const seriesData = props.aboveTheFoldData.titleType.isSeries
+    ? {
+        totalEps: props.mainColumnData.episodes?.totalEpisodes?.total ?? 0,
+        totalseasons: Math.max(
+          ...props.mainColumnData.episodes?.seasons?.map((season) => season.number) ?? [0]
+        ),
+      }
+    : {};
+  
   return {
     id: id,
     review_api_path: `/reviews/${id}`,
@@ -103,8 +112,7 @@ export default async function getTitle(id) {
       name: e.category.text,
       credits: e.credits.map((e) => e.name.nameText.text),
     })),
-    totalEps: props.mainColumnData.episodes.totalEpisodes.total,
-    totalseasons: Math.max(...props.mainColumnData.episodes.seasons.map(season => season.number)),
+    ...seriesData,
     ...(props.aboveTheFoldData.titleType.isSeries ? await seriesFetcher(id) : {}),
   };
 }
