@@ -37,7 +37,8 @@ export default async function getTitle(id) {
     );
     lowQualityImage = imageUrl.replace(/[.]_.*_[.]/, `._V1_UY396_CR6,0,${width},396_AL_.`);
   }
-
+  
+  const endYear = props.aboveTheFoldData.releaseYear?.endYear ?? null;
   return {
     id: id,
     review_api_path: `/reviews/${id}`,
@@ -68,13 +69,12 @@ export default async function getTitle(id) {
       date: new Date(
         props.aboveTheFoldData.releaseDate.year,
         props.aboveTheFoldData.releaseDate.month - 1,
-        props.aboveTheFoldData.releaseDate.day,
-        props.aboveTheFoldData.releaseYear.endYear
+        props.aboveTheFoldData.releaseDate.day
       ).toISOString(),
       day: props.aboveTheFoldData.releaseDate.day,
       month: props.aboveTheFoldData.releaseDate.month,
       year: props.aboveTheFoldData.releaseDate.year,
-      endYear: props.aboveTheFoldData.releaseYear.endYear,
+      //endYear: props.aboveTheFoldData.releaseYear.endYear,
       releaseLocation: {
         country: props.mainColumnData.releaseDate?.country?.text,
         cca2: props.mainColumnData.releaseDate?.country?.id,
@@ -85,7 +85,7 @@ export default async function getTitle(id) {
       })),
     },
     year: props.aboveTheFoldData.releaseDate.year,
-    endYear: props.aboveTheFoldData.releaseYear.endYear,
+    endYear: endYear,
     spokenLanguages: props.mainColumnData.spokenLanguages.spokenLanguages.map((e) => ({
       language: e.text,
       id: e.id,
